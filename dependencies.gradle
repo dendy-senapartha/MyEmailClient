@@ -29,7 +29,8 @@ ext {
 
     def libs = [
             butterknife         : [group: 'com.jakewharton', name: 'butterknife', version: butterknifeVersion],
-            butterknifeCompiler : [group: 'com.jakewharton', name: 'butterknife-compiler', version: butterknifeVersion]
+            butterknifeCompiler : [group: 'com.jakewharton', name: 'butterknife-compiler', version: butterknifeVersion],
+
     ]
 
     def testLibs = [
@@ -44,6 +45,7 @@ ext {
             [configuration: "implementation", dependency: androidLibs.supportv4],
             [configuration: "implementation", dependency: androidLibs.supportAnnotation],
             [configuration: "implementation", dependency: androidLibs.androidDesign],
-            [configuration: "implementation", dependency: libs.butterknife]
+            [configuration: "implementation", dependency: libs.butterknife],
+            [configuration: "annotationProcessor", dependency: libs.butterknifeCompiler]
     ]
 }

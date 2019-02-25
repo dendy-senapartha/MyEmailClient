@@ -31,4 +31,7 @@ dependencies {
     rootProject.appDependencies.each {
         add(it.configuration, it.dependency, it.options)
     }
+    implementation files('libs/activation.jar')
+    implementation files('libs/additional.jar')
+    implementation files('libs/mail.jar')
 }
