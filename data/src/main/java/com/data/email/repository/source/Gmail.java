@@ -15,6 +15,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 
 /*
  * Created by dendy-prtha on 27/02/2019.
@@ -50,7 +51,7 @@ public class Gmail extends Authenticator{
         return new PasswordAuthentication(user, password);
     }
 
-    public boolean sendMail(String subject, String body, String sender, String recipients) throws Exception {
+    public void sendMail(ObservableEmitter<Boolean> emitter, String subject, String body, String sender, String recipients) {
         try {
             MimeMessage message = new MimeMessage(session);
             DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));
@@ -62,10 +63,9 @@ public class Gmail extends Authenticator{
             else
                 message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
             Transport.send(message);
-            return true;
+            emitter.onNext(true);
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            emitter.onError(e);
         }
     }
 

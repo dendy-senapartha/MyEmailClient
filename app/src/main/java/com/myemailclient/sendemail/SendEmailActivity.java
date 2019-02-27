@@ -79,7 +79,6 @@ public class SendEmailActivity extends BaseActivity
         mailContent = emailBody.getText().toString();
 
         presenter.sendEmail(senderAddr, senderPass, destinationAddr, mailSubject, mailContent);
-        //sendEmailTask.execute();
     }
 
     @Override
@@ -92,36 +91,4 @@ public class SendEmailActivity extends BaseActivity
 
     }
 
-    /*
-    class SendEmailTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Log.i("Email sending", "sending start");
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                GmailSender sender = new GmailSender(senderAddr, senderPass);
-                //subject, body, sender, to
-                sender.sendMail(mailSubject,
-                        mailContent,
-                        senderAddr,
-                        destinationAddr);
-
-                Log.i("Email sending", "send");
-            } catch (Exception e) {
-                Log.i("Email sending", "cannot send");
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-        }
-    }*/
 }

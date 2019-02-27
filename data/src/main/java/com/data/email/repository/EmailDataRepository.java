@@ -39,11 +39,8 @@ public class EmailDataRepository implements EmailRepository {
 
         return Observable.create(
                 emitter -> {
-                    gmail.sendMail(request.mailSubject, request.mailContent, request.senderAddr, request.destinationAddr);
+                    gmail.sendMail(emitter, request.mailSubject, request.mailContent, request.senderAddr, request.destinationAddr);
                 }
         );
-
-
-       // return initializedRequest(gmail.);
     }
 }

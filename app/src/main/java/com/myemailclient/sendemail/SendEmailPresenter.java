@@ -32,9 +32,17 @@ public class SendEmailPresenter implements SendEmailContract.Presenter {
                           String destinationAddr, String subject, String content) {
         Log.d(TAG, "test");
         sendEmail.execute(new DefaultObserver<Boolean>(){
+            @Override
             public void onNext(Boolean isSucces)
             {
                 Log.d(TAG, "isSucces : "+isSucces);
+                view.onSendEmailSuccess();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "onError : "+ e.getClass().getName());
+                view.onSendEmailFail();
             }
         }, new SendEmailRequest(senderAddr, senderPass,destinationAddr,subject, content));
     }
