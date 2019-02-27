@@ -1,27 +1,50 @@
 apply plugin: 'com.android.application'
 
 android {
+    def globalConfig = rootProject.extensions.getByName("ext")
+    def versionMajor = globalConfig["versionMajor"]
+    def versionMinor = globalConfig["versionMinor"]
+    def versionPatch = globalConfig["versionPatch"]
+    def buildNumber = globalConfig["buildNumber"]
+
     compileSdkVersion project.androidCompileSdkVersion
     defaultConfig {
-        applicationId "com.example.myemailclient"
+        applicationId "com.myemailclient"
         minSdkVersion project.androidMinSdkVersion
         targetSdkVersion project.androidTargetSdkVersion
-        versionCode 1
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}.${buildNumber}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
     buildTypes {
         debug {
             versionNameSuffix "-debug"
-            resValue "string", "app_version", "${defaultConfig.versionName}.${buildNumber}${versionNameSuffix}"
+            resValue "string", "app_version", "${defaultConfig.versionName}${versionNameSuffix}"
             debuggable true
         }
 
         release {
             minifyEnabled false
+            resValue "string", "app_version","${defaultConfig.versionName}"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    applicationVariants.all { variant ->
+        def appName
+        if(project.hasProperty("applicationName"))
+        {
+            appName = applicationName
+        } else {
+            appName = parent.name
+        }
+        variant.outputs.all {
+            def version = variant.versionName
+            outputFileName = "${appName}-${version}.apk"
+        }
+    }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -31,7 +54,6 @@ dependencies {
     rootProject.appDependencies.each {
         add(it.configuration, it.dependency, it.options)
     }
-    implementation files('libs/activation.jar')
-    implementation files('libs/additional.jar')
-    implementation files('libs/mail.jar')
+    implementation project(path: ':domain')
+    implementation project(path: ':data')
 }

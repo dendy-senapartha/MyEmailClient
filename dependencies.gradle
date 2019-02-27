@@ -12,6 +12,8 @@ ext {
     daggerVersion = '2.12'
     designVersion = '28.0.0'
     butterknifeVersion = '8.8.1'
+    rxAndroidVersion = '2.0.2'
+    rxJavaVersion = '2.x.x'
 
     //Testing
     jUnitVersion = '4.12'
@@ -30,6 +32,10 @@ ext {
     def libs = [
             butterknife         : [group: 'com.jakewharton', name: 'butterknife', version: butterknifeVersion],
             butterknifeCompiler : [group: 'com.jakewharton', name: 'butterknife-compiler', version: butterknifeVersion],
+            dagger              : [group: 'com.google.dagger', name: 'dagger', version: daggerVersion],
+            daggerCompiler      : [group: 'com.google.dagger', name: 'dagger-compiler', version: daggerVersion],
+            rxAndroid           : [group: 'io.reactivex.rxjava2', name: 'rxandroid', version: rxAndroidVersion],
+            rxJava              : [group: 'io.reactivex.rxjava2', name: 'rxjava', version: rxJavaVersion]
 
     ]
 
@@ -46,6 +52,34 @@ ext {
             [configuration: "implementation", dependency: androidLibs.supportAnnotation],
             [configuration: "implementation", dependency: androidLibs.androidDesign],
             [configuration: "implementation", dependency: libs.butterknife],
-            [configuration: "annotationProcessor", dependency: libs.butterknifeCompiler]
+            [configuration: "implementation", dependency: libs.rxAndroid],
+            [configuration: "implementation", dependency: libs.rxJava],
+            [configuration: "implementation", dependency: libs.dagger],
+            [configuration: "annotationProcessor", dependency: libs.butterknifeCompiler],
+            [configuration: "annotationProcessor", dependency: libs.daggerCompiler]
+    ]
+
+    domainDependencies = [
+            [configuration: "implementation", dependency: androidLibs.appCompat],
+            [configuration: "implementation", dependency: libs.rxAndroid],
+            [configuration: "implementation", dependency: libs.rxJava],
+            [configuration: "implementation", dependency: libs.dagger],
+            [configuration: "annotationProcessor", dependency: libs.daggerCompiler],
+            [configuration: "testImplementation", dependency: testLibs.junit],
+            [configuration: "testImplementation", dependency: testLibs.mockito],
+            [configuration: "androidTestImplementation", dependency: testLibs.runner],
+            [configuration: "androidTestImplementation", dependency: testLibs.espressoCore]
+    ]
+
+    dataDependencies = [
+            [configuration: "implementation", dependency: androidLibs.appCompat],
+            [configuration: "implementation", dependency: libs.rxAndroid],
+            [configuration: "implementation", dependency: libs.rxJava],
+            [configuration: "implementation", dependency: libs.dagger],
+            [configuration: "annotationProcessor", dependency: libs.daggerCompiler],
+            [configuration: "testImplementation", dependency: testLibs.junit],
+            [configuration: "testImplementation", dependency: testLibs.mockito],
+            [configuration: "androidTestImplementation", dependency: testLibs.runner],
+            [configuration: "androidTestImplementation", dependency: testLibs.espressoCore]
     ]
 }
